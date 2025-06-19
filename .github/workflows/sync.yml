@@ -17,14 +17,14 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: dev
+          base: main
           title: "Sync dev [ci skip]"
           body: |
             Automated PR to sync changes from `main` to `dev`.
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: false
-          branch: main
+          branch: dev
           labels: |
             dev
             refactoring
