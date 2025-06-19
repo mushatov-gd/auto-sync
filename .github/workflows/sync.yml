@@ -21,7 +21,7 @@ jobs:
           title: "Sync dev [ci skip]"
           body: |
             Automated PR to sync changes from `main` to `dev`.
-          committer: mushatov-gd <85122308+mushatov-gd@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: main
@@ -33,6 +33,6 @@ jobs:
 
       - name: Enable auto-merge for PR
         if: steps.cpr.outputs.pull-request-number != ''
-        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
