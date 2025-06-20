@@ -18,4 +18,4 @@ jobs:
         run: |
           gh pr create --base dev --head main --title "Sync dev [ci skip]" --label dev --body "Automated PR to sync changes from 'main' to 'dev'."
           PR_NUMBER=$(gh pr list --base main --head main --json number -q '.[0].number')
-          gh pr merge --auto $PR_NUMBER
+          gh pr merge --auto --merge $PR_NUMBER
