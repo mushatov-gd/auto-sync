@@ -11,26 +11,12 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-
+      
       - name: Create Pull Request from main to dev
         id: cpr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: dev
-          title: 'Sync dev [ci skip]'
-          commit-message: Sync dev
-          body: |
-            Automated PR to sync changes from `main` to `dev`.
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: main
-          labels: |
-            dev
-            refactoring
-          delete-branch: false
-          draft: false
+        run: gh pr create --base dev --head main --title "Sync dev [ci skip]" --label dev --body "Automated PR to sync changes from `main` to `dev`."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge for PR
         if: steps.cpr.outputs.pull-request-number != ''
