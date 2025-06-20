@@ -16,7 +16,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --base dev --head main --title "Sync dev [ci skip]" --label dev --body "Automated PR to sync changes from 'main' to 'dev'."
-          PR_NUMBER=$(gh pr list --base dev --head main --json number -q '.[0].number')
-          echo $PR_NUMBER
-          gh pr merge --auto --merge $PR_NUMBER
+          gh pr create \
+            --base dev \
+            --head main \
+            --title "Sync dev [ci skip]" \
+            --label dev \
+            --body "Automated PR to sync changes from 'main' to 'dev'."
+
+          PR_NUMBER=$(gh pr view --json number -q '.number')
+
+          gh pr merge --auto --merge "$PR_NUMBER"
