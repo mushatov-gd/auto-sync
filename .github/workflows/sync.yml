@@ -12,12 +12,9 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Authenticate GitHub CLI
-        run: gh auth setup-git
+      - name: Create Pull Request from main to dev
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create PR from main to dev
         run: |
           gh pr create \
             --base dev \
@@ -28,6 +25,8 @@ jobs:
 
       - name: Fetch PR number and check mergeability
         id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_JSON=$(gh pr view --head main --base dev --json number,mergeable)
           echo "$PR_JSON" > pr.json
@@ -44,5 +43,7 @@ jobs:
           fi
 
       - name: Auto-merge PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr merge --auto --merge "${{ steps.check.outputs.PR_NUMBER }}"
