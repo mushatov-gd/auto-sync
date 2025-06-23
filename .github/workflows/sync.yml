@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-
+      
       - name: Create Pull Request from main to dev
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -23,27 +23,12 @@ jobs:
             --label dev \
             --body "Automated PR to sync changes from 'main' to 'dev'."
 
-      - name: Fetch PR number and check mergeability
-        id: check
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PR_JSON=$(gh pr view --head main --base dev --json number,mergeable)
-          echo "$PR_JSON" > pr.json
-
-          MERGEABLE=$(echo "$PR_JSON" | jq -r '.mergeable')
-          PR_NUMBER=$(echo "$PR_JSON" | jq -r '.number')
-
-          echo "PR_NUMBER=$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "MERGEABLE=$MERGEABLE" >> "$GITHUB_OUTPUT"
+          PR_NUMBER=$(gh pr view --json number -q '.number')
+          MERGEABLE=$(gh pr view --json mergeable -q '.mergeable')
 
           if [ "$MERGEABLE" != "MERGEABLE" ]; then
             echo "❌ Merge conflict detected in PR #$PR_NUMBER (mergeable=$MERGEABLE)"
             exit 1
           fi
 
-      - name: Auto-merge PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr merge --auto --merge "${{ steps.check.outputs.PR_NUMBER }}"
+          gh pr merge --auto --merge "$PR_NUMBER"
