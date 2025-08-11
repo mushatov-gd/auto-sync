@@ -6,6 +6,7 @@ on:
       action:
         description: "choose env"
         required: true
+        default: "-"
         type: choice
         options:
           - test1
