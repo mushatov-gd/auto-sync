@@ -6,8 +6,13 @@ on:
       action:
         description: "choose env"
         required: true
-        # default: "-"
-        type: string
+        default: '-'
+        type: choice
+        options:
+          - '-'
+          - 'test1'
+          - 'test2'
+          - 'test3'
 
 jobs:
   build:
@@ -17,7 +22,7 @@ jobs:
       - name: Check for env
         if: ${{ (github.event.inputs.action != 'test1') && (github.event.inputs.action != 'test2') && (github.event.inputs.action != 'test3') }}
         run: |
-          echo "Pls choose env."
+          echo "You have chosen ${{ github.event.inputs.action }}. Please choose correct ENV name"
           exit 1
 
       - uses: actions/checkout@v4
