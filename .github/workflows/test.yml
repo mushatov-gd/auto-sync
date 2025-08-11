@@ -6,18 +6,20 @@ on:
       action:
         description: "choose env"
         required: true
-        default: "-"
-        type: choice
-        options:
-          - test1
-          - test2
-          - test3
+        # default: "-"
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check for env
+        if: ${{ (github.event.inputs.action != 'test1') && (github.event.inputs.action != 'test2') && (github.event.inputs.action != 'test3') }}
+        run: |
+          echo "Pls choose env."
+          exit 1
+
       - uses: actions/checkout@v4
 
       - name: greet
