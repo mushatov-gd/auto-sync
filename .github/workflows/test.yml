@@ -1,32 +1,19 @@
-name: test
+name: Check PTT
 
 on:
   workflow_dispatch:
-    inputs:
-      action:
-        description: "choose env"
-        required: true
-        default: '-'
-        type: choice
-        options:
-          - '-'
-          - 'test1'
-          - 'test2'
-          - 'test3'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check for env
-        if: ${{ (github.event.inputs.action != 'test1') && (github.event.inputs.action != 'test2') && (github.event.inputs.action != 'test3') }}
+      - name: Pentest
+        uses: pentesttoolscom/pentesttools-github-action@master
+        id: ptt
+        with:
+          target: https://preprod.stage.griddynamics.net
+
+      - name: Check Pentest results
         run: |
-          echo "You have chosen ${{ github.event.inputs.action }}. Please choose correct ENV name"
-          exit 1
-
-      - uses: actions/checkout@v4
-
-      - name: greet
-        run: | 
-          echo "choice is ${{ github.event.inputs.action }} / ${{ inputs.action }}"
+          echo "The report: ${{ steps.ptt.outputs.result }}"
