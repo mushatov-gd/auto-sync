@@ -1,4 +1,4 @@
-name: Check PTT
+name: PTT
 
 on:
   workflow_dispatch:
@@ -8,11 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Pentest
         uses: pentesttoolscom/pentesttools-github-action@master
         id: ptt
         with:
           target: https://preprod.stage.griddynamics.net
+          format: json
+          fail: none
+          type: light
 
       - name: Check Pentest results
         run: |
