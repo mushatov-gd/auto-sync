@@ -1,4 +1,4 @@
-name: PTT
+name: Test PTT
 
 on:
   workflow_dispatch:
