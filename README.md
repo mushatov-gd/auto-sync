@@ -1,2 +1,2 @@
 # auto-sync
-feat1 + 1
+feat1
