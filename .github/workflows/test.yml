@@ -1,4 +1,4 @@
-name: Check PTT
+name: PTT
 
 on:
   workflow_dispatch:
