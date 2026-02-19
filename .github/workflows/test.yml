@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Pentest
-        uses: pentesttoolscom/pentesttools-github-action@master
+        uses: pentesttoolscom/pentesttools-github-action@v0.0.4-alpha
         id: ptt
         with:
           target: https://preprod.stage.griddynamics.net
