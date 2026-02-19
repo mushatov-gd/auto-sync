@@ -16,10 +16,6 @@ jobs:
         id: ptt
         with:
           target: https://preprod.stage.griddynamics.net
-          format: text
-          fail: none
-          type: light
-          max_scan_time: 10
 
       - name: Check Pentest results
         run: |
